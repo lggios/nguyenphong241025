@@ -1,1 +1,44 @@
-# nguyenphong241025
+from signal import signal, SIGTERM, SIGHUP, pause
+from rpi_lcd import LCD
+lcd = LCD()
+import RPi.GPIO as GPIO
+from mfrc522 import SimpleMFRC522
+reader = SimpleMFRC522()
+while True:
+
+    def safe_exit(signum, frame):
+        exit(1)
+    try:
+        signal(SIGTERM, safe_exit)
+        signal(SIGHUP, safe_exit)
+        lcd.text("Xin Chao!", 1)
+        lcd.text("Moi Ban Quet The", 2)
+        pause()
+    except KeyboardInterrupt:
+        pass
+    finally:
+        lcd.clear()
+        
+        
+    #quet the
+    try:
+        id, text = reader.read()
+        print(id)
+        print(text)
+    finally:
+        GPIO.cleanup() 
+            
+    #loi moi quet the
+    
+    def safe_exit(signum, frame):
+        exit(3)
+    try:
+        signal(SIGTERM, safe_exit)
+        signal(SIGHUP, safe_exit)
+        lcd.text("Xin Chao!", 3)
+        lcd.text("Moi Ban Quet The", 4)
+        pause()
+    except KeyboardInterrupt:
+        pass
+    finally:
+        lcd.clear()
